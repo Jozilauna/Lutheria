@@ -1,0 +1,13 @@
+DirectoryIndex home.php
+
+RewriteEngine On
+
+# Redirection de l'URL racine vers home.php
+RewriteRule ^$ /home.php [R=301,L]
+RewriteRule ^index\.php$ /home.php [R=301,L]
+RewriteRule ^(.+)\.html$ $1.php [L,R=301]
+
+<Files "*.html">
+    Order deny,allow
+    Deny from all
+</Files>
