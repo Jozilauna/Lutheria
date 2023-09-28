@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Lutheria</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/minecraftia" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="dark-mode">
+<div class="wrapper">
+    <div class="photo-grid">
+        <div class="photo-item">
+            <img src="assets/album%20(2).png" alt="Image 1" class="zoomable">
+            <div class="description">
+                <h3>Spawn de Lutheria</h3>
+                <hr>
+                <p>L'endroit où tout a commencé.</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(1).png" alt="Image 2" class="zoomable">
+            <div class="description">
+                <h3>L'église</h3>
+                <hr>
+                <p>Un endroit pour ceux qui veulent se repentir, ou se marier...</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(3).png" alt="Image 3" class="zoomable">
+            <div class="description">
+                <h3>Le village de Shedew et MonsieurMeu</h3>
+                <hr>
+                <p>Production de masse ou exploitation ? Beaucoup de personnes ignorent ce qui se passe vraiment là bas.</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(4).png" alt="Image 4" class="zoomable">
+            <div class="description">
+                <h3>Le chateau de IamExaria</h3>
+                <hr>
+                <p>Terres de l'autoproclamé empereur de Lutheria IamExaria. Son ambition n'a d'égal que ses moyens mis en place pour conquérir la vallée.</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(5).png" alt="Image 5" class="zoomable">
+            <div class="description">
+                <h3>Le royaume de JimTheSwag</h3>
+                <hr>
+                <p>Royaume du colonisateur Québécois. Installé sur des anciennes citées pour affirmer sa dominance.</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(6).png" alt="Image 6" class="zoomable">
+            <div class="description">
+                <h3>Village de Leempia</h3>
+                <hr>
+                <p>Le plus grand village de Lutheria. Leempia et ses mineurs y sont installés entre leurs pierres précieuses et leurs tours magiques.</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(7).png" alt="Image 7" class="zoomable">
+            <div class="description">
+                <h3>L'île volante et le dirigeable de Burreau</h3>
+                <hr>
+                <p>Le premier village volant de Lutheria.</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(8).png" alt="Image 8" class="zoomable">
+            <div class="description">
+                <h3>Le puit de lumière de Gogoikawa</h3>
+                <hr>
+                <p>Des étoiles dans le ciel descandant dans les profondeurs de la terre jusqu'au portail vers le néant.</p>
+            </div>
+        </div>
+        <div class="photo-item">
+            <img src="assets/album%20(9).png" alt="Image 9" class="zoomable">
+            <div class="description">
+                <h3>La pyramide de Badzoo et Kotich</h3>
+                <hr>
+                <p>Seul les plus vaillants viendront à bout du sinistre labyrinthe de la pyramide.</p>
+            </div>
+        </div>
+        <!-- Ajoutez les autres éléments de photos avec leurs descriptions ici -->
+    </div>
+</div>
+</body>
+<script>
+    // Récupérer toutes les images cliquables
+    const zoomableImages = document.querySelectorAll('.zoomable');
+
+    // Ajouter un écouteur d'événement click à chaque image
+    zoomableImages.forEach(image => {
+        image.addEventListener('click', function() {
+            // Créer un élément <img> pour afficher l'image en grand
+            const zoomedImg = document.createElement('img');
+            zoomedImg.src = this.src;
+            zoomedImg.alt = this.alt;
+            zoomedImg.classList.add('zoomed');
+
+            // Créer un élément d'arrière-plan semi-transparent
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay', 'active'); // Ajouter la classe "active"
+            overlay.appendChild(zoomedImg);
+
+            // Ajouter l'élément d'arrière-plan à la page
+            document.body.appendChild(overlay);
+
+            // Supprimer l'élément d'arrière-plan lorsqu'on clique dessus
+            overlay.addEventListener('click', function() {
+                this.remove();
+            });
+        });
+    });
+</script>
+</html>

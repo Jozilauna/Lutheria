@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Lutheria</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/minecraftia" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="dark-mode">
+<div class="wrapper">
+    <div class="background">
+        <div class="resume">
+            <p class="presentation-title">LUTHERIA</p>
+            <p class="presentation-details">Notre serveur Minecraft est bien plus qu'un simple jeu,</p>
+            <p class="presentation-details">la créativité n'a aucune limite.</p>
+        </div>
+    </div>
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <div style="font-size: 25px">
+                <div class="version">
+                    <span style="font-size: 25px">Version :
+                         <?php if ($status->online) { ?>
+                             <strong> <?php echo $status->version; ?></strong>
+                         <?php } else { ?>
+                             <strong>Indisponible</strong>
+                         <?php } ?>
+                    </span>
+                </div>
+                <div class="statut-serveur">
+                    <p>Statut du serveur :
+                        <strong>
+                            <?php
+                            echo $status->online ? 'ON' : 'OFF';
+                            $status_class = $status->online ? 'online' : 'offline'; // Ajouter une classe CSS différente en fonction du statut
+                            ?>
+                        </strong>
+                        <span class="status-circle <?php echo $status_class; ?>"></span>
+                        <!-- Afficher le cercle coloré avec une classe CSS différente -->
+                    </p>
+                </div>
+            </div>
+            <div style="display: flex; text-align: center">
+                <?php if ($status->online) { ?>
+                    <div class="favicon">
+                        <img src="<?php echo $status->icon; ?>" alt="favicon">
+                    </div>
+                    <div class="motd">
+                        <div class="player-box">
+                            <p><?php echo $status->motd->html[0]; ?></p>
+                        </div>
+                    </div>
+                <?php } else { ?>
+                    <div class="motd">
+                        <div class="player-box">
+                            <p>Le serveur est éteint</p>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="players">
+                <div class="player-box">
+                    <?php if (isset($status->players->list)): ?>
+                        <div class="player-count">Joueurs : <?php echo count($status->players->list); ?>
+                            /<?php echo $status->players->max; ?></div>
+                        <div class="player-list">
+                            <?php foreach ($status->players->list as $player) { ?>
+                                <div class="player-item">
+                                    <span class="minecraft-player"><?php echo $player; ?></span>
+                                    <img src="https://mineskin.eu/helm/<?php echo $player; ?>/50" alt="skin"
+                                         width="50px">
+                                </div>
+                            <?php } ?>
+                        </div>
+                    <?php else: ?>
+                        <p>Aucun joueur connecté</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="etiquettes">
+            <a href="screenshots.php" class="etiquette">
+                <div class="etiquette-focus">
+                    <img src="assets/constru.png" width="400" alt="etiquette">
+                    <h3>Les constructions</h3>
+                </div>
+            </a>
+            <a href="statistics.php" class="etiquette">
+                <div class="etiquette-focus">
+                    <img src="assets/stats.png" width="400" alt="etiquette">
+                    <h3>Les statistiques</h3>
+                </div>
+            </a>
+            <!--            <a href="blazefishy.php">-->
+            <!--                <div class="etiquette-focus">-->
+            <!--                    <img src="assets/screens%20(1).png" width="400" alt="etiquette">-->
+            <!--                    <h3>Où est BlazeFishy</h3>-->
+            <!--                </div>-->
+            <!--            </a>-->
+        </div>
+    </div>
+    <div style="background-color: darkgrey;padding: 20px">
+        <div style="display: flex;">
+            <div style="text-align: center;background-color:#4C4C4C; padding: 20px; border-radius: 10px;">
+                <h1 style="text-align: center">L'histoire de Lutheria</h1>
+                <p style="font-size: 20px">Découvrez l'histoire du serveur et de ses joueurs au travers du petit Livret
+                    du Lore de Lutheria !</p>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <a href="/history.php" class="button-lore">Découvrez le Lore !</a>
+                </div>
+            </div>
+            <div class="book">
+                <div class="cover">
+                    <div>
+                        <h1>LUTHERIA</h1>
+                        <h1>Le petit Livret du Lore</h1>
+                    </div>
+                </div>
+                <div class="page">
+                    <div class="page-content">
+                        <p>Commençons notre histoire un peu avant la création de Lutheria, à un âge sombre où les
+                            griffes de la mort pouvaient emporter les explorateurs trop téméraires, les privant de leur
+                            butin.</p>
+                        <p>Apparus dans au milieu d’un immense anneau de montagne ...</p>
+                        <div style="text-align: right">
+                            <a href="/history.php">
+                                <img class="arrow" src="assets/arrow.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

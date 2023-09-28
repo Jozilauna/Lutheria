@@ -1,0 +1,26 @@
+<nav>
+    <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul class="menu-items">
+        <li><a href="home.php">LUTHERIA</a></li>
+        <li><a href="statistics.php">Statistiques</a></li>
+        <li><a href="screenshots.php">Album</a></li>
+    </ul>
+</nav>
+
+<script>
+    // Sélectionner le bouton de menu et le menu
+    var menuToggle = document.querySelector('.menu-toggle');
+    var nav = document.querySelector('nav');
+
+    // Ajouter un gestionnaire d'événement au clic sur le bouton de menu
+    menuToggle.addEventListener('click', function() {
+        // Ajouter ou supprimer la classe 'open' du menu
+        nav.classList.toggle('open');
+        menuToggle.classList.toggle('animate');
+    });
+
+</script>

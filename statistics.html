@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Lutheria</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/minecraftia" type="text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="dark-mode">
+<div class="wrapper">
+    <div>
+        <div class="statistic-title">
+            <h1>Les statistiques de Lutheria :</h1>
+            <p><i>Attention, les statistiques ne sont pas actualisées en direct.</i></p>
+        </div>
+        <div>
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><span>Joueur</span></th>
+                            <th><span>Morts</span></th>
+                            <th><span>Temps de jeu</span></th>
+                            <th><span>Objets ramassés</span></th>
+                            <th><span>Objets cassés</span></th>
+                            <th><span>Objets utilisés</span></th>
+                            <th><span>Blocs minés</span></th>
+                            <th><span>Objets craftés</span></th>
+                            <th><span>Objets jetés</span></th>
+                            <th><span>Entités tuées</span></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+
+                        // Récupérer le statut et décoder le JSON
+                        $status = json_decode(file_get_contents('https://api.mcsrvstat.us/2/game9-fr.hosterfy.com:60268'));
+
+                        // Chargement du fichier usercache.json
+                        $usercache = file_get_contents('usercache.json');
+                        $usercache = json_decode($usercache, true);
+
+                        // Chargement du fichier banned-players.json
+                        $banned_players = file_get_contents('banned-players.json');
+                        $banned_players = json_decode($banned_players, true);
+
+                        // Chargement du fichier ops.json
+                        $ops = file_get_contents('ops.json');
+                        $ops = json_decode($ops, true);
+
+                        // Tableau pour stocker les UUID des joueurs bannis
+                        $banned_uuids = [];
+                        foreach ($banned_players as $banned_player) {
+                            $banned_uuids[] = $banned_player['uuid'];
+                        }
+
+                        // Tableau pour stocker les UUID des ops
+                        $op_uuid = [];
+                        foreach ($ops as $ops) {
+                            $op_uuid[] = $ops['uuid'];
+                        }
+
+                        // Création d'un tableau associatif uuid => pseudo
+                        $players = array();
+                        foreach ($usercache as $user) {
+                            $players[$user['uuid']] = $user['name'];
+                        }
+
+                        // Tri des joueurs par ordre alphabétique de leur pseudo
+                        asort($players);
+
+                        // Tableau pour stocker les nombres de morts des joueurs
+                        $morts_joueurs = [];
+                        // Boucle sur les joueurs triés
+                        foreach ($players as $uuid => $pseudo) {
+                            // Vérifier si le joueur est banni en vérifiant son UUID
+                            if (in_array($uuid, $banned_uuids) || in_array($uuid, $op_uuid)) {
+                                // Passer au joueur suivant s'il est banni
+                                continue;
+                            }
+                            // Chargement des statistiques du joueur
+                            $stats_file = 'stats/' . $uuid . '.json';
+                            if (file_exists($stats_file)) {
+                                $stats = file_get_contents($stats_file);
+                                $stats = json_decode($stats, true);
+                                if (isset($stats['stats'])) {
+                                    $player_stats = $stats['stats'];
+                                    // Initialisation des totaux
+                                    $total_picked_up = 0;
+                                    $total_broken = 0;
+                                    $total_used = 0;
+                                    $total_mined = 0;
+                                    $total_crafted = 0;
+                                    $total_custom = 0;
+                                    $total_dropped = 0;
+                                    $total_killed = 0;
+                                    $total_deaths = 0;
+                                    $total_time = 0;
+                                    // Boucle sur toutes les statistiques du joueur
+                                    foreach ($player_stats as $statistic => $values) {
+                                        // Addition des valeurs numériques pour chaque statistique principale
+                                        switch ($statistic) {
+                                            case 'minecraft:picked_up':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_picked_up += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:broken':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_broken += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:used':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_used += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:mined':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_mined += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:crafted':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_crafted += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:custom':
+                                                foreach ($values as $item => $amount) {
+                                                    if ($item == 'minecraft:deaths') {
+                                                        $total_deaths = $amount;
+                                                    }
+                                                    if ($item == 'minecraft:play_time') {
+                                                        if ($amount < 20) {
+                                                            $total_time = $amount . 's';
+                                                        } elseif ($amount < 1200) {
+                                                            $total_time = round($amount / 20 / 60, 1) . 'min';
+                                                        } elseif ($amount < 86400) {
+                                                            $total_time = round($amount / 20 / 60 / 60, 1) . 'h';
+                                                        } else {
+                                                            $total_time = round($amount / 20 / 60 / 60 / 24, 1) . 'j';
+                                                        }
+                                                    } else {
+                                                        $total_custom += $amount;
+                                                    }
+                                                }
+                                                break;
+                                            case 'minecraft:dropped':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_dropped += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:killed':
+                                                foreach ($values as $entity => $amount) {
+                                                    $total_killed += $amount;
+                                                }
+                                                break;
+                                        }
+                                    }
+                                    // Affichage des statistiques du joueur
+                                    echo '<tr>';
+                                    echo '<td>' . '<strong>' . $pseudo . '</strong>' . '</td>';
+                                    echo '<td>' . $total_deaths . '</td>';
+                                    echo '<td>' . formatTime($total_time) . '</td>';
+                                    echo '<td>' . $total_picked_up . '</td>';
+                                    echo '<td>' . $total_broken . '</td>';
+                                    echo '<td>' . $total_used . '</td>';
+                                    echo '<td>' . $total_mined . '</td>';
+                                    echo '<td>' . $total_crafted . '</td>';
+                                    echo '<td>' . $total_dropped . '</td>';
+                                    echo '<td>' . $total_killed . '</td>';
+                                    echo '</tr>';
+                                }
+                            }
+
+                            // Récupération du nombre de morts du joueur
+                            $morts_joueurs[$pseudo] = $total_deaths;
+                        }
+
+                        // Trier le tableau des joueurs par nombre de morts (ordre décroissant)
+                        arsort($morts_joueurs);
+
+                        // Sélectionner les 3 premiers joueurs du top 3
+                        $top3 = array_slice($morts_joueurs, 0, 3, true);
+
+                        // Fonction pour formater le temps en heures, minutes, jours, etc.
+                        function formatTime($time)
+                        {
+                            if (strpos($time, 'j') !== false) {
+                                $days = floatval(str_replace('j', '', $time));
+                                return $days . ' j';
+                            } elseif (strpos($time, 'h') !== false) {
+                                $hours = floatval(str_replace('h', '', $time));
+                                return $hours . ' h';
+                            } elseif (strpos($time, 'min') !== false) {
+                                $minutes = intval(str_replace('min', '', $time));
+                                return $minutes . ' m';
+                            } elseif (strpos($time, 's') !== false) {
+                                $seconds = intval(str_replace('s', '', $time));
+                                return $seconds . ' s';
+                            }
+
+                            return $time;
+                        }
+
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table>
+                        <tbody>
+                        <?php
+
+                        function convertTimeToSeconds($time)
+                        {
+                            if (strpos($time, 'j') !== false) {
+                                $days = floatval(str_replace('j', '', $time));
+                                return $days * 24 * 60 * 60;
+                            } elseif (strpos($time, 'h') !== false) {
+                                $hours = floatval(str_replace('h', '', $time));
+                                return $hours * 60 * 60;
+                            } elseif (strpos($time, 'min') !== false) {
+                                $minutes = intval(str_replace('min', '', $time));
+                                return $minutes * 60;
+                            } elseif (strpos($time, 's') !== false) {
+                                $seconds = intval(str_replace('s', '', $time));
+                                return $seconds;
+                            } else {
+                                return 0;
+                            }
+                        }
+
+                        // Tableau pour stocker les notes globales des joueurs
+                        $global_scores = array();
+
+                        // Boucle sur les joueurs triés
+                        foreach ($players as $uuid => $pseudo) {
+                            // Chargement des statistiques du joueur
+                            $stats_file = 'stats/' . $uuid . '.json';
+                            if (file_exists($stats_file)) {
+                                $stats = file_get_contents($stats_file);
+                                $stats = json_decode($stats, true);
+                                if (isset($stats['stats'])) {
+                                    $player_stats = $stats['stats'];
+
+                                    // Initialisation des totaux
+                                    $total_picked_up = 0;
+                                    $total_broken = 0;
+                                    $total_used = 0;
+                                    $total_mined = 0;
+                                    $total_crafted = 0;
+                                    $total_custom = 0;
+                                    $total_dropped = 0;
+                                    $total_killed = 0;
+                                    $total_deaths = 0;
+                                    $total_time = 0;
+
+                                    // Boucle sur toutes les statistiques du joueur
+                                    foreach ($player_stats as $statistic => $values) {
+                                        // Addition des valeurs numériques pour chaque statistique principale
+                                        switch ($statistic) {
+                                            case 'minecraft:picked_up':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_picked_up += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:broken':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_broken += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:used':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_used += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:mined':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_mined += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:crafted':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_crafted += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:custom':
+                                                foreach ($values as $item => $amount) {
+                                                    switch ($item) {
+                                                        case 'minecraft:deaths':
+                                                            $total_deaths = $amount;
+                                                            break;
+                                                        case 'minecraft:play_time':
+                                                            if ($amount < 20) {
+                                                                $total_time = $amount . 's';
+                                                            } elseif ($amount < 1200) {
+                                                                $total_time = round($amount / 20 / 60, 1) . 'min';
+                                                            } elseif ($amount < 86400) {
+                                                                $total_time = round($amount / 20 / 60 / 60, 1) . 'h';
+                                                            } else {
+                                                                $total_time = round($amount / 20 / 60 / 60 / 24, 1) . 'j';
+                                                            }
+                                                            break;
+                                                        case 'minecraft:interact_with_grindstone':
+                                                        case 'minecraft:open_enderchest':
+                                                        case 'minecraft:interact_with_loom':
+                                                        case 'minecraft:animals_bred':
+                                                        case 'minecraft:interact_with_stonecutter':
+                                                        case 'minecraft:interact_with_blast_furnace':
+                                                        case 'minecraft:interact_with_lectern':
+                                                        case 'minecraft:target_hit':
+                                                        case 'minecraft:interact_with_smithing_table':
+                                                        case 'minecraft:sleep_in_bed':
+                                                        case 'minecraft:traded_with_villager':
+                                                        case 'minecraft:interact_with_furnace':
+                                                        case 'minecraft:enchant_item':
+                                                        case 'minecraft:leave_game':
+                                                        case 'minecraft:eat_cake_slice':
+                                                        case 'minecraft:open_barrel':
+                                                        case 'minecraft:interact_with_beacon':
+                                                        case 'minecraft:interact_with_brewingstand':
+                                                        case 'minecraft:talked_to_villager':
+                                                        case 'minecraft:open_shulker_box':
+                                                        case 'minecraft:open_chest':
+                                                        case 'minecraft:inspect_hopper':
+                                                        case 'minecraft:interact_with_anvil':
+                                                        case 'minecraft:inspect_dropper':
+                                                        case 'minecraft:inspect_dispenser':
+                                                        case 'minecraft:interact_with_smoker':
+                                                        case 'minecraft:interact_with_cartography_table':
+                                                        case 'minecraft:interact_with_crafting_table':
+                                                            $total_custom += $amount;
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                            case 'minecraft:dropped':
+                                                foreach ($values as $item => $amount) {
+                                                    $total_dropped += $amount;
+                                                }
+                                                break;
+                                            case 'minecraft:killed':
+                                                foreach ($values as $entity => $amount) {
+                                                    $total_killed += $amount;
+                                                }
+                                                break;
+                                        }
+                                    }
+
+                                    // Calculer la note globale du joueur
+                                    $total_score = 0;
+                                    $total_stats = 0;
+
+                                    // Coefficients pour chaque statistique
+                                    $coefficients = array(
+                                        'deaths' => 1,
+                                        'time_played' => 0,
+                                        'picked_up' => 0,
+                                        'broken' => 6,
+                                        'used' => 7,
+                                        'mined' => 6,
+                                        'crafted' => 0,
+                                        'custom' => 4,
+                                        'dropped' => 0,
+                                        'killed' => 6,
+                                    );
+
+                                    // Ajouter les statistiques pondérées à la note globale
+                                    $total_score += $total_deaths * $coefficients['deaths'];
+                                    $total_stats += $coefficients['deaths'];
+                                    $total_score += convertTimeToSeconds($total_time) * $coefficients['time_played'];
+                                    $total_stats += $coefficients['time_played'];
+                                    $total_score += $total_picked_up * $coefficients['picked_up'];
+                                    $total_stats += $coefficients['picked_up'];
+                                    $total_score += $total_broken * $coefficients['broken'];
+                                    $total_stats += $coefficients['broken'];
+                                    $total_score += $total_used * $coefficients['used'];
+                                    $total_stats += $coefficients['used'];
+                                    $total_score += $total_mined * $coefficients['mined'];
+                                    $total_stats += $coefficients['mined'];
+                                    $total_score += $total_crafted * $coefficients['crafted'];
+                                    $total_stats += $coefficients['crafted'];
+                                    $total_score += $total_crafted * $coefficients['custom'];
+                                    $total_stats += $coefficients['custom'];
+                                    $total_score += $total_dropped * $coefficients['dropped'];
+                                    $total_stats += $coefficients['dropped'];
+                                    $total_score += $total_killed * $coefficients['killed'];
+                                    $total_stats += $coefficients['killed'];
+
+                                    // Calculer la moyenne pondérée
+                                    $average_score = $total_score / $total_stats;
+
+                                    // Ajouter la note globale du joueur au tableau
+                                    $global_scores[$pseudo] = $average_score;
+                                }
+                            }
+                        }
+
+                        // Trier le tableau des joueurs par note globale (ordre décroissant)
+                        arsort($global_scores);
+
+                        // Calculer la somme totale de toutes les notes pour les 10 joueurs du top 10
+                        $top10_scores = array_slice($global_scores, 0, 10, true);
+                        $total_score_sum_top10 = array_sum($top10_scores);
+
+                        // Afficher les notes globales en pourcentage avec la place du joueur
+                        echo '<h2>Top 10 des joueurs les plus actifs</h2>';
+                        echo '<table>';
+                        echo '<thead>';
+                        echo '<tr><th>Place</th><th>Joueur</th><th>Pourcentage</th></tr>';
+                        echo '</thead>';
+                        echo '<tbody>';
+                        $rank = 1;
+                        foreach ($top10_scores as $pseudo => $score) {
+                            $percentage = ($score / $total_score_sum_top10) * 100;
+                            echo '<tr>';
+                            echo '<td>' . $rank . '</td>';
+                            echo '<td>' . $pseudo . '</td>';
+                            echo '<td>' . number_format($percentage, 0) . '%</td>';
+                            echo '</tr>';
+                            $rank++;
+                        }
+                        echo '</tbody>';
+                        echo '</table>';
+
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="over-top3">
+        <div id="top3">
+            <?php
+            // Affichage du top 3 des joueurs les plus morts
+            echo '<div id="top3">';
+            echo '<h2>Top 3 des joueurs les plus morts</h2>';
+            echo '<div class="pyramid">';
+            $position = 1; // Variable pour garder une trace de la position actuelle
+            foreach ($top3 as $pseudo => $morts) {
+                if ($position === 1) {
+                    echo '<div class="first-place">';
+                    echo '<span class="position position-' . $position . '">' . $position . '</span>'; // Affichage de la position
+                    echo '<span class="death-count">' . $morts . ' Morts</span>';
+                    echo '<span class="player">' . $pseudo . '</span>';
+                    echo '<img style="padding: 10px" src="https://mineskin.eu/body/' . $pseudo . '" alt="skin" width="100px">';
+                    echo '</div>';
+                } else {
+                    echo '<div class="level">';
+                    echo '<span class="position position-' . $position . '">' . $position . '</span>'; // Affichage de la position
+                    echo '<span class="death-count">' . $morts . ' Morts</span>';
+                    echo '<span class="player">' . $pseudo . '</span>';
+                    echo '<img style="padding: 10px" src="https://mineskin.eu/body/' . $pseudo . '" alt="skin" width="100px">';
+                    echo '</div>';
+                }
+                $position++; // Incrémenter la position pour le joueur suivant
+            }
+            echo '</div>';
+            echo '</div>';
+            ?>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Récupérer les en-têtes de colonnes du tableau
+    const th = document.querySelectorAll('table th');
+
+    // Ajouter un événement de clic à chaque en-tête de colonne
+    th.forEach(col => {
+        col.addEventListener('click', () => {
+            const table = col.closest('table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            // Récupérer l'indice de la colonne correspondante
+            const index = Array.from(col.parentNode.children).indexOf(col);
+
+            // Trier les lignes en fonction de la colonne sélectionnée
+            const sortedRows = rows.sort((a, b) => {
+                let aVal, bVal;
+                if (index === 0) {
+                    // Trier la colonne "Joueur" en ordre alphabétique
+                    aVal = a.querySelectorAll('td')[index].textContent.trim().toLowerCase();
+                    bVal = b.querySelectorAll('td')[index].textContent.trim().toLowerCase();
+                } else if (index === 2) {
+                    // Trier la colonne "Temps de jeu" en convertissant les unités de temps en secondes
+                    aVal = convertTimeToSeconds(a.querySelectorAll('td')[index].textContent.trim());
+                    bVal = convertTimeToSeconds(b.querySelectorAll('td')[index].textContent.trim());
+                } else {
+                    // Trier les autres colonnes en ordre décroissant
+                    const aCell = a.querySelectorAll('td')[index];
+                    const bCell = b.querySelectorAll('td')[index];
+                    aVal = aCell ? aCell.textContent.trim() : '';
+                    bVal = bCell ? bCell.textContent.trim() : '';
+                    aVal = isNaN(parseFloat(aVal)) ? aVal : parseFloat(aVal);
+                    bVal = isNaN(parseFloat(bVal)) ? bVal : parseFloat(bVal);
+                }
+                return aVal > bVal ? 1 : -1;
+            });
+
+            // Réinitialiser les flèches de tri des autres colonnes
+            th.forEach(header => {
+                if (header !== col) {
+                    header.classList.remove('asc', 'desc');
+                }
+            });
+
+            // Inverser l'ordre de tri si la colonne a déjà été triée dans l'ordre décroissant
+            if (col.classList.contains('asc')) {
+                col.classList.remove('asc');
+                col.classList.add('desc');
+                sortedRows.reverse();
+            } else {
+                col.classList.remove('desc');
+                col.classList.add('asc');
+            }
+
+            // Ajouter les lignes triées au tableau
+            tbody.innerHTML = '';
+            sortedRows.forEach(row => tbody.appendChild(row));
+        });
+    });
+
+    // Fonction de conversion des unités de temps en secondes
+    function convertTimeToSeconds(time) {
+        if (time.includes('j')) {
+            const days = parseFloat(time.replace('j', ''));
+            return days * 24 * 60 * 60;
+        } else if (time.includes('h')) {
+            const hours = parseFloat(time.replace('h', ''));
+            return hours * 60 * 60;
+        } else if (time.includes('min')) {
+            const minutes = parseFloat(time.replace('min', ''));
+            return minutes * 60;
+        } else {
+            return 0;
+        }
+    }
+</script>
+</body>
+</html>

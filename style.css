@@ -1,0 +1,1063 @@
+html, body {
+    font-family: 'Ubuntu', sans-serif;
+    color: #d1d1d6;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+/* Styles pour le mode sombre */
+.dark-mode {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+/* Styles pour le mode clair */
+.light-mode {
+    background-color: #ffffff;
+    color: #222222;
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: calc(25% - 2rem);
+    max-width: calc(25% - 2rem);
+    margin: 1rem;
+}
+
+.players {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.player-box {
+    background-color: black;
+    font-family: MinecraftiaRegular, serif;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-box ul {
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.player-count {
+    font-size: 20px;
+    margin-bottom: 1rem;
+}
+
+.player-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.player-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+}
+
+.version {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.version span {
+    font-size: 1.2rem;
+}
+
+.motd {
+    /*display: inline-block;*/
+    font-size: 20px;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    vertical-align: middle;
+}
+
+.news {
+    max-width: 800px; /* par exemple */
+    /* centrage horizontal */
+    text-align: center;
+    margin: 2rem auto 0;
+}
+
+.favicon {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.favicon img {
+    max-width: 100%;
+    height: auto;
+}
+
+#header {
+    background-color: #212121;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 48px;
+    text-align: center;
+    padding: 50px 0;
+    margin-bottom: 50px;
+}
+
+body.light-mode .player-box {
+    background-color: lightgray;
+}
+
+.status-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.status-circle.online {
+    background-color: green;
+    animation: blink 2s infinite;
+}
+
+.status-circle.offline {
+    background-color: red;
+}
+
+@keyframes blink {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.toggle-wrapper {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    margin: 0 auto;
+}
+
+.minecraft-btn {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAAAPCAAAAACe4j/AAAAEuElEQVRIx1WWS5Ibuw5EtddrdRRJJE4iSKrb4c2/AUuy30iK+jEBHCTwAICMCgAKiGhKVQUwKzJHQo4mQGBy7AIvk1E2AQKhFt6bUGD1gILy0DkD4dmzACkGyzCScgFgQmLZr4LpQpC56QB2wgSYE8i1fd6xd1yPHIAKwAs14Undx2LIHK0X6vdFbzTa6CNBLQE8Y5rapn7oAl3KSDKC6cLfL6sLnIVG7ffnyUgvQ6rwLjUZdIVqWz0iEXXCZ+TJsV8feUdoPHDk+a/IeAbq0ldLT59jtHweHwmKS6gFSUYCqKcVsPami1pEnqolkCMBiAS87FXTICp03geYUr8TV8un3KuyC0BfTUzihOCdwjUya1bkT9VWe+AaFOoJzHdtERXRe/eulyEDhC6pjYwr+JQuIDU9/0wQBnJEAkd+9i6IRTJrV7YWnGfwLA6ESphkBoCu88M0YH1CTTOiRUpDdwpGkkP5yL9phhwn+QVxDarAXq513y9bLKgxBGR/CjDyMl4ECd6lO82CaMLbEHGHp1R8ePDERj392ssaCOigNjJ+dXXl6OLUFfVx6dA1BFJLlHpkUHPam095C3QJLIjn6OLIOB3xe0JS85Zd+govg1/z/UhtG3RdVW98yxNp5I0Vtf/U+6y/dJ/yHtSK4q7G9ARscC3/Df/kXTwiT3d6ovjEISLJIVEvBwWeCXlALZTbpy85xqWuf3sNiBBUmYjI+BqN6aNQqDWpipSYf3W1nOV/WALoykjIiCPreSn97UigsjZdPA5s3AmCDIxaVO0Fa1fV/qkaiijPPz/bEeRyLSBDI8K8j37TO8aH7vmOqUUQ1DboYhvqd+FlFGEo+2T75MbLGnjvPeu7Pl521Ap14dcR3h7p75qv4xieqnNDoyCPLt/yKkf5gOUXl+6S3d9Syq/982fz+fhpsm28C5EhJcxsWWQke6KoPMA7tqm7kKcrn6FLhWcoqCNCxDPyQ8wEKR73nIlEX8GpARSJX7/rzeNtWPD/Dl2IwtOYMwV7osGsHYJanzeU7KqIZVCTcrT0IEbyD4d1e1dkBtW2qLhLXK7a1ogDqsjI1DR4PY7nHEqfF9tn8HUJL+eQ/lGOXdwI1++57CqgmDaReM9CZYLAk4D4ymqti4KZI9Htz9OnrcuOhCQEqJfXaxHPAFG/l/ee1GFJPXmPryYUiUGPutnRGXkagmnjHk5RNpm7xxiclm6CjJEQ4+MD4xPmuT9Ef4b3YT3B51a7d4Np76PF0cavuC+SoaH6PlilipEakoJBJETWT3k7Hf+1REPj2fIx95t5ct6u9S5v3KM2fv2Ve29ax9yC98zT2IZot61MHyYtdPF92nguZ29xfcVxSu9Nj5Gl8G3wcVoW8n1Q/f6BHFEAyy5R2aRIdYH8XfV4453vHKcnqarXPD6mdrD0rlVV5xBPF2xuJM5Oo0SdaaqGMjJva7ii6bYv74IzPMo5pGebpu72ghypwTR+WWDuhQOkFijGyAzF3GXh11lEH0hkPINZivpTqLEtVm2j1hVcn/S0//q0es5dbyxOErxKivQ+bHotvzcT3/XztPf20XqG6fJZMePT2X6ts+nlm9LoSYHMiHuJjGXniB7v2fo/5qT4nuxYg6AAAAAASUVORK5CYII=);
+    font-family: 'MinecraftiaRegular', serif;
+    color: white;
+    cursor: pointer;
+    border-color: #AAA #565656 #565656 #AAA;
+    text-shadow: 3px 3px #4C4C4C;
+    outline: 2px solid #000;
+    font-size: 30px;
+}
+
+.minecraft-btn:hover {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAAAPCAMAAACMV5AuAAAAVFBMVEVtd7ZteLZverdwerdwe7hxfLhyfbl0frl1f7p2gLt4grx6hLx7hb18hr5+iL+AisCBi8GCjMGEjsKGkMOHkcSIksSKk8WLlMWLlcaMlcaNlsePmMdwBHmVAAAEjElEQVRIx1WW27YbKw5F3Ul2GYTWFAJX+pyd///PfgDsTg0/mSqQ1k08AEAeDkAA7kXyDAeyu2QCWREgCGSvAAbIE/D9U2m8Ji4Drw0CEhP7EMiqBFxmDMBEkHvd5AziDsjoCKQXddUl1nuZgMZrf0PMdj1kgNY+Ay+CJPg8kj1rR3X/GS9kxaoJVFaB6QkxIX5TBX65mpAZGQH3HaoCFMj6/GxuYgDyTsyup1hfxwxVN+F08ANGANyf8jqAPaBpranJvhxV+VV08JGPVScmcL8W4EIuAFWFHMZrUkUfNC3WtIsEaFogMWJRl839MES61w1cjMUsI1fb7GKaoENMOdFNykzXPz2mlwekkXjV4ioO9b15rZWZd4AaCL9cxdSutl8buIOUkd8JTgAy01IKoFoFPhAZr65SbDHgxFIGKi5IpLaKdlafAHxaVWDt2SSZ24LQhEx6aLGyj7RtELDLiA7EiD72ehBiQJo5oPq1nOQMYGAIYoY2AwIrImaA+25P8vZRa0KgqrjnQIaACiom/1G9Sla3GUHVLl/mMl/mxeUPGT0T5seAeeAQtF9WV2F7cX4niJ4DYmBd12oh7jymyRkBuq6M81mQuExHVv313beo9VH3ojfM2zZ8AkTG8X7EeDs6OZw+mrY7E5l/gqQJmZx+YySQAi1/dqQZy0as4FL1d7nrcfd1kjWTX1ZIYESTUCnuPZE7+anrqcxlz3diUX2HowHCf15S3AvxrnhRxeMwtQACGYGKZ7wGjNl7vH73MHdP8s/vSXM0FiRqMnPowfbjRsfe6n7nZ/FGIyfgF6+A/t1XTrcWB3Q42AxkMOfMfuJotRPgqGqFMfB8KO6eN+BEpO8F2eLZ18YO0GUdmEDcXMcNey+XuOfvP5P35guSVxAzWRYUpIoSuZiJrJ/p4zPouw0pwX+6XwpIcyNWEcJ/uf5Svuyx+ncTfhmotEhIBPe/8f961F/jI5aQfSs3WFOwChnZZxPk+HQjZu/WBuDFVwobZnoLISBOdkmNLFPE9iadiImsgTcdTDKA8dj1qBT518Xcg6+6L0Yl/nqCLeH+b46InkCSETTBzEQBRoPEwS9lKVUkpEx426M3oIMHYQLhK/B6jHvgXw6if4+YM4mlJdWDpLw4MhHgjwBZgIt+ZJdAVENOEkiv6mY4yy5nFPjnQmGfGVy0IqP+cmbsWF7Se/rT+5ZBzHPdKfajHW2ouWldPJaoTDJ3GUYTNMV/IyaiPYqQuX0VPXK+ra3Mc8c5Wlkp4D/e5S5htjXU3HnPPJsBXraRM/rSpOMX99zMoVradRl9AMxJdVPIYgf8Rhu0DvLM739A5rmjJ51QcW9SFXjcvR85oYOhSKTsd65pqdKWIV59ZO/7kKTDJLbvYw9XVRIyTXKJdfm4rOjE18yT8IHM/euZa0Z0fLvBSIh7h925QLoXR80WNfnqOHHP7Qk5aj+dTLX4E3hhIkafoGd15/IDT/lPTVSVr233dy6OkJtiLm0yBu+byeE2Yc59pVrDdKyPjxgD4h6r6vcFwpYNHMxVBaE2ApmfyTTjf5jQnWRymG7iAAAAAElFTkSuQmCC);
+    border-color: #BDC6FF #59639A #59639A #BDC6FF;
+    color: #fbff9c;
+}
+
+.minecraft-player {
+    font-family: 'MinecraftiaRegular', serif;
+    font-size: 20px;
+}
+
+.toggle-checkbox {
+    display: none;
+}
+
+.toggle-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #d9d9d9;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.toggle-checkbox:checked + .toggle-label {
+    background-color: black;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.wrapper {
+    flex: 1;
+    margin-bottom: -50px; /* Ajustez la valeur de la marge négative selon vos besoins */
+}
+
+.content {
+    /* La hauteur du footer est ajoutée à la marge négative pour la compenser */
+    padding-bottom: 50px;
+}
+
+th {
+    cursor: pointer;
+}
+
+th.asc::after {
+    content: " ▲";
+}
+
+th.desc::after {
+    content: " ▼";
+}
+
+.over-top3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+#top3 {
+    background-color: #4C4C4C;
+    padding: 20px;
+    display: inline-block;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#top3 h2 {
+    font-size: 30px;
+    background-color: black;
+    border-radius: 10px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.pyramid {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.pyramid > div:first-child {
+    margin-bottom: auto;
+}
+
+.pyramid > div:not(:first-child) {
+    align-self: flex-start;
+}
+
+.level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+.level:not(:first-child) {
+    margin-top: 50px; /* Ajustez la valeur selon l'espace souhaité entre les niveaux */
+}
+
+.first-place {
+    position: absolute;
+    display: flex;
+    flex-direction: column; /* Ajout de cette ligne pour afficher les éléments en colonne */
+    align-items: center; /* Optionnel : pour centrer les éléments horizontalement */
+}
+
+.player {
+    font-family: MinecraftiaRegular, serif;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.69);
+    padding: 5px;
+}
+
+.death-count {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.position-1 {
+    font-size: 50px;
+    font-weight: bolder;
+    color: #ffe000;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 5);
+}
+
+.position-2 {
+    font-size: 50px;
+    font-weight: bolder;
+    color: #9a9494;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 5);
+    margin-top: 0; /* Ajuste la position vers le bas */
+}
+
+.position-3 {
+    font-size: 50px;
+    font-weight: bolder;
+    color: #8d5533;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 5);
+    margin-top: 15px; /* Ajuste la position vers le bas */
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.social-icons a {
+    display: inline-block;
+}
+
+.social-icons img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.social-icons a:hover img {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: green;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+th span {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes zoomOut {
+    from {
+        transform: scale(1.1);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+th:hover span {
+    animation: zoomIn 0.3s forwards;
+}
+
+th:not(:hover) span {
+    animation: zoomOut 0.3s forwards;
+}
+
+td {
+    text-align: center;
+    padding: 12px;
+    font-size: 18px;
+    border-bottom: 1px solid #ddd;
+    background-color: black;
+}
+
+.player-name {
+    cursor: pointer;
+    transition: transform 0.3s, color 0.3s ease;
+}
+
+.player-name:hover {
+    transform: scale(1.1);
+    color: limegreen;
+}
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 400px;
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+body.light-mode th {
+    background-color: lightgray;
+    color: black;
+}
+
+body.light-mode td {
+    color: black;
+}
+
+/* Styles communs pour le mode desktop et mobile */
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+nav a {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: green;
+    transition: width 0.3s ease;
+    transform: translateX(-50%);
+    transform-origin: center;
+}
+
+nav a:hover::after {
+    width: calc(100% - 40px); /* Ajustez la valeur selon vos besoins */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover {
+    transition: transform 0.3s, color 0.3s ease;
+    color: limegreen;
+}
+
+.paragraph {
+    font-size: 15px;
+}
+
+.cropped-image {
+    object-fit: cover; /* Pour garder la partie centrale de l'image */
+    filter: brightness(70%); /* Pour rendre l'image plus sombre */
+}
+
+.background {
+    background-image: url('assets/wp.png');
+    background-size: cover;
+    position: relative;
+    height: 0;
+    padding-top: 50%;
+    overflow: hidden;
+}
+
+.resume {
+    margin: 0;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 80%;
+    max-width: 90%;
+}
+
+.presentation-title {
+    font-weight: bold;
+    margin: 0;
+    font-size: 70px;
+    padding-top: 200px;
+}
+
+.presentation-details {
+    margin: 0;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.dashboard {
+    background-color: transparent;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.33);
+
+}
+
+.photo-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px; /* Ajoutez cette ligne pour définir une marge supérieure */
+}
+
+.photo-item {
+    width: auto;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.33);
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.photo-item img {
+    width: 40%;
+    max-width: 100%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.photo-item .description {
+    width: 50%;
+    font-size: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.photo-item:nth-child(odd) {
+    flex-direction: row-reverse;
+}
+
+.photo-item:nth-child(odd) .description {
+    text-align: right;
+}
+
+.photo-item:nth-child(even) .description {
+    text-align: left;
+}
+
+.photo-item img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.photo-item img:not(:hover) {
+    transform: scale(1);
+}
+
+.zoomed {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    z-index: 9999;
+    max-width: 90%;
+    max-height: 90%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9998;
+    display: none;
+}
+
+.overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay.active .zoomed {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.book {
+    width: 300px;
+    height: 400px;
+    perspective: 1000px;
+    margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+.book:hover {
+    transform: scale(1.05);
+}
+
+.cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #74321f; /* Couleur de base de la couverture */
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 20px 20px;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    border-radius: 10px;
+    transition: transform 0.5s;
+    z-index: 2;
+    box-shadow: -10px 0 0 #572517
+}
+
+.book:hover .cover {
+    transform: rotateY(-180deg);
+}
+
+.book .cover h1 {
+    font-family: MinecraftiaRegular, serif;
+    font-weight: lighter;
+    color: #fff; /* Couleur du texte */
+    text-shadow: 3px 3px 0 #000,
+    -3px -3px 0 #000,
+    3px -3px 0 #000,
+    -3px 3px 0 #000;
+}
+
+.book .cover h1 {
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.book:hover .cover h1 {
+    opacity: 0;
+}
+
+.page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    transform-origin: right;
+    transform-style: preserve-3d;
+    border-radius: 10px;
+    z-index: 1;
+    background-image: radial-gradient(ellipse at center, rgb(255, 255, 255) 0%, rgba(247, 236, 206) 90%);
+    box-shadow: inset -10px 0 0 0 #572517;
+}
+
+.page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px; /* Épaisseur de la barre */
+    height: 100%;
+    background-color: transparent; /* Couleur transparente */
+    transform: translateX(-50%); /* Déplacement à gauche */
+    margin-left: 20px; /* Ajustement pour éviter le débordement */
+    background-image: radial-gradient(#c1251d 50%, transparent 50%); /* Création des points tillés */
+    background-size: 2px 29px; /* Taille des points */
+}
+
+.page .page-content {
+    font-family: MinecraftiaRegular, serif;
+    color: black;
+    padding-top: 3px;
+    padding-left: 30px;
+    width: 75%;
+}
+
+.button-lore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 20px;
+    color: black;
+    border: none;
+    text-decoration: none;
+}
+
+.button-lore:hover {
+    background-color: limegreen;
+    transform: scale(1.05);
+    color: white;
+}
+
+.arrow {
+    margin-top: -35px;
+    transition: transform 0.3s ease;
+}
+
+.arrow:hover {
+    transform: scale(1.1);
+}
+
+.etiquettes {
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.etiquette {
+    padding: 20px;
+}
+
+.etiquette-focus {
+    cursor: pointer;
+    background-color: #333333;
+    padding: 20px;
+    display: inline-block;
+    border-radius: 10px;
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+.etiquette-focus:hover {
+    transform: scale(1.05);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.statistic-title {
+    text-align: center;
+}
+
+@media only screen and (hover: none) and (pointer: coarse) {
+    /* Réorganiser la disposition de la navigation */
+    nav {
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav li {
+        margin: 10px 0;
+    }
+
+    /* Afficher/masquer le menu basé sur la classe 'open' */
+    nav ul.menu-items {
+        display: none;
+        font-size: 40px;
+    }
+
+    nav.open ul.menu-items {
+        display: flex;
+        animation: slideDown 0.5s ease;
+    }
+
+    /* Styles pour le bouton de menu */
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 60px;
+        height: 7px;
+        background-color: white;
+        margin-bottom: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    /* Animation pour le bouton de menu lorsqu'il est cliqué */
+    .menu-toggle.animate span:nth-child(1) {
+        transform: rotate(45deg) translate(15px, 15px);
+    }
+
+    .menu-toggle.animate span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.animate span:nth-child(3) {
+        transform: rotate(-45deg) translate(15px, -15px);
+    }
+
+    /* Animation pour afficher/masquer le menu */
+    @keyframes slideDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .background {
+        background-image: url('assets/wp.png');
+        height: auto;
+        background-size: cover;
+        position: relative;
+    }
+
+    .wrapper {
+        margin-bottom: -20px; /* Ajustez la valeur de la marge négative selon vos besoins */
+    }
+
+    .book {
+        width: 200px;
+        height: 300px;
+    }
+
+    .book .cover h1 {
+        font-size: 18px;
+    }
+
+    .page .page-content {
+        font-size: 10px;
+    }
+
+    .arrow {
+        position: absolute;
+        width: 30px;
+        left: 125px;
+        transform: translateY(0);
+        margin-top: 0;
+    }
+
+    .statut-serveur {
+        text-align: center;
+    }
+
+    .motd {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .statistic-title {
+        text-align: center;
+    }
+
+    .statistic-title h1{
+        font-size: 55px;
+    }
+
+    .statistic-title p{
+        font-size: 20px;
+    }
+
+    .player-box {
+        padding: 5px;
+    }
+
+    .favicon {
+        padding: 10px;
+    }
+
+    .table-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        max-height: 50vh;
+        max-width: 40vh;
+    }
+
+    .table-responsive table {
+        width: 100%;
+        min-width: 600px; /* Vous pouvez ajuster cette valeur en fonction de vos besoins */
+        border-collapse: separate; /* Séparation des bordures de la table pour l'en-tête et le corps */
+        margin-top: -1px; /* Compense le décalage causé par la barre de défilement */
+    }
+
+    .table-responsive thead {
+        position: sticky; /* Permet à l'en-tête de rester fixe */
+        top: 0; /* Place l'en-tête en haut de la table */
+        background-color: #f1f1f1; /* Couleur de fond pour l'en-tête */
+    }
+
+    .table-responsive th {
+        z-index: 2; /* Assure que l'en-tête est au-dessus du corps de la table */
+    }
+
+    footer {
+        font-size: 35px;
+    }
+
+    .footer-sub{
+        font-size: 32px
+    }
+
+    .social-icons img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .presentation-title {
+        font-weight: bold;
+        margin: 0;
+        font-size: 70px;
+        padding-top: 20px;
+    }
+
+    .presentation-details {
+        margin: 0;
+        font-size: 30px;
+        padding-top: 10px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .book {
+        width: 200px;
+        height: 300px;
+    }
+
+    .book .cover h1 {
+        font-size: 18px;
+    }
+
+    .page .page-content {
+        font-size: 10px;
+    }
+
+    .arrow {
+        position: absolute;
+        width: 30px;
+        left: 125px; /* Ajustez la valeur pour déplacer la flèche vers la gauche */
+        transform: translateY(0); /* Ajustez la valeur pour centrer la flèche verticalement */
+        margin-top: 0;
+    }
+
+    .statut-serveur {
+        text-align: center;
+    }
+
+    .motd {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .player-box {
+        padding: 5px;
+    }
+
+    .favicon {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .photo-item {
+        flex-direction: column;
+    }
+
+    .photo-item img,
+    .photo-item .description {
+        width: 100%;
+    }
+}
